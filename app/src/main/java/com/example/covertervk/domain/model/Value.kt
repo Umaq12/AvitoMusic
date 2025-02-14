@@ -1,12 +1,6 @@
 package com.example.covertervk.domain.model
 
-//data class Value(
-//    val base_code: String,
-//    val conversion_rate: Double,
-//    val conversion_result: Double,
-//    val result: String,
-//    val target_code: String,
-//)
+
 data class MusicChartDomain(
     val albums: List<AlbumDomain>,
     val artists: List<ArtistDomain>,
@@ -16,14 +10,14 @@ data class MusicChartDomain(
 )
 
 data class AlbumDomain(
-    val id: Int,
+    val id: Long,
     val title: String,
     val coverUrl: String,
     val artist: ArtistDomain
 )
 
 data class ArtistDomain(
-    val id: Int,
+    val id: Long,
     val name: String,
     val pictureUrl: String
 )
@@ -36,14 +30,14 @@ data class PlaylistDomain(
 )
 
 data class PodcastDomain(
-    val id: Int,
+    val id: Long,
     val title: String,
     val description: String,
     val coverUrl: String
 )
 
 data class TrackDomain(
-    val id: Int,
+    val id: Long,
     val title: String,
     val duration: Int,
     val rank: Int,
@@ -53,7 +47,7 @@ data class TrackDomain(
 )
 
 data class ContributorDomain(
-    val id: Int,
+    val id: Long,
     val name: String,
     val pictureUrl: String,
     val role: String

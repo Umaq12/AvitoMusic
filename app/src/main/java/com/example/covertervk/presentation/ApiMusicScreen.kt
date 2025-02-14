@@ -87,8 +87,6 @@ fun ExchangeScreen2(viewModel: ExchangeViewModel) {
                         }
                     }
                 }
-
-
             }
 
             state.error.isNotEmpty() -> {
