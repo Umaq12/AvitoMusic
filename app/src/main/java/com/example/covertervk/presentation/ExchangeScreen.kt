@@ -39,7 +39,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.ui.text.font.FontWeight
-import com.example.covertervk.domain.use_case.getExchangeUseCase
+
 
 @Composable
 fun ExchangeScreen(viewModel: ExchangeViewModel) {
@@ -60,20 +60,20 @@ fun ExchangeScreen(viewModel: ExchangeViewModel) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        when {
-            state.isLoading -> {
-                CircularProgressIndicator()
-            }
-            state.coin != null -> {
-                Text(text = "Converted Amount: ${state.coin.conversion_result}",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            state.error.isNotEmpty() -> {
-                viewModel.state.value.coin?.let { Text(text = "Не верно веденные данные", color = Color.Red) }
-            }
-        }
+//        when {
+//            state.isLoading -> {
+//                CircularProgressIndicator()
+//            }
+//            state.coin != null -> {
+//                Text(text = "Converted Amount: ${state.coin.conversion_result}",
+//                    fontSize = 16.sp,
+//                    fontWeight = FontWeight.Bold
+//                )
+//            }
+//            state.error.isNotEmpty() -> {
+//                viewModel.state.value.coin?.let { Text(text = "Не верно веденные данные", color = Color.Red) }
+//            }
+//        }
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
             value = amount,
@@ -141,9 +141,9 @@ fun ExchangeScreen(viewModel: ExchangeViewModel) {
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = {viewModel.getExchange(fromValue, toValue, amount) }) {
-            Text("Get Exchange")
-        }
+//        Button(onClick = {viewModel.getExchange(fromValue, toValue, amount) }) {
+//            Text("Get Exchange")
+//        }
     }
 }
 
