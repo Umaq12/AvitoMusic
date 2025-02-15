@@ -46,8 +46,8 @@ data class Tracks(
 @Serializable
 data class Data(
     val artist: Artist,
-    val cover: String,
-    val cover_big: String,
+    val cover: String? = null,
+    val cover_big: String? = null,
     val cover_medium: String,
     val cover_small: String,
     val cover_xl: String,
@@ -63,17 +63,17 @@ data class Data(
 )
 @Serializable
 data class Artist(
-    val id: Long,
-    val link: String,
-    val name: String,
-    val picture: String,
-    val picture_big: String,
-    val picture_medium: String,
-    val picture_small: String,
-    val picture_xl: String,
-    val radio: Boolean,
-    val tracklist: String,
-    val type: String
+    val id: Long? = null,
+    val link: String? = null,
+    val name: String? = null,
+    val picture: String? = null,
+    val picture_big: String? = null,
+    val picture_medium: String? = null,
+    val picture_small: String? = null,
+    val picture_xl: String? = null,
+    val radio: Boolean? = null,
+    val tracklist: String? = null,
+    val type: String? = null
 )
 @Serializable
 data class DataX(

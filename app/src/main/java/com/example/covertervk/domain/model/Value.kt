@@ -10,16 +10,16 @@ data class MusicChartDomain(
 )
 
 data class AlbumDomain(
-    val id: Long,
-    val title: String,
-    val coverUrl: String,
+    val id: Long? = null,
+    val title: String? = null,
+    val coverUrl: String? = null,
     val artist: ArtistDomain
 )
 
 data class ArtistDomain(
-    val id: Long,
-    val name: String,
-    val pictureUrl: String
+    val id: Long? = null,
+    val name: String? = null,
+    val pictureUrl: String? = null
 )
 
 data class PlaylistDomain(

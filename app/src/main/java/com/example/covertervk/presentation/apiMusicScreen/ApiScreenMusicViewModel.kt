@@ -1,4 +1,4 @@
-package com.example.covertervk.presentation
+package com.example.covertervk.presentation.apiMusicScreen
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -8,12 +8,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.covertervk.data.remote.Api
 import com.example.covertervk.data.remote.dto.toDomain
 import com.example.covertervk.domain.util.Constants
+import com.example.covertervk.presentation.ValueState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ExchangeViewModel @Inject constructor(
+class ApiScreenMusicViewModel @Inject constructor(
     private val api: Api,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -23,13 +24,13 @@ class ExchangeViewModel @Inject constructor(
 
     init {
         savedStateHandle.get<Int>(Constants.PARAM_ID)?.let { id ->
-            getTrackById(id)
+            getTrackById(id.toString())
         }
 
         getCharts()
     }
 
-    private fun getTrackById(id: Int) {
+    fun getTrackById(id: String) {
         viewModelScope.launch {
             _state.value = ValueState(isLoading = true)
             try {
