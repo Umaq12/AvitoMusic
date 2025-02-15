@@ -1,15 +1,20 @@
 package com.example.covertervk.data.repository
 
-import com.example.covertervk.data.remote.ExchangeApi
-import com.example.covertervk.data.remote.dto.ValueDto
-import com.example.covertervk.domain.model.Value
-import com.example.covertervk.domain.repository.ValueRepository
+import com.example.covertervk.data.remote.Api
+import com.example.covertervk.data.remote.dto.MusicChart
+import com.example.covertervk.data.remote.dto.TrackId
+import com.example.covertervk.domain.repository.Repository
 import javax.inject.Inject
 
-class ValueRepositoryImpl @Inject constructor(
-    private val api:ExchangeApi
-): ValueRepository {
-    override suspend fun getExchange(fromValue: String, toValue: String, amount: String): ValueDto {
-        return api.getExchange(fromValue, toValue, amount)
+class RepositoryImpl @Inject constructor(
+    private val api:Api
+): Repository {
+
+    override suspend fun getTrackById(id: String): TrackId {
+        return api.getTrackById(id)
+    }
+
+    override suspend fun getChart(): MusicChart {
+        return api.getCharts()
     }
 }

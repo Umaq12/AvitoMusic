@@ -1,8 +1,9 @@
 package com.example.covertervk.domain.repository
 
-import com.example.covertervk.data.remote.dto.ValueDto
-import com.example.covertervk.domain.model.Value
+import com.example.covertervk.data.remote.dto.MusicChart
+import com.example.covertervk.data.remote.dto.TrackId
 
-interface ValueRepository {
-    suspend fun getExchange(fromValue: String, toValue: String, amount: String): ValueDto
+interface Repository {
+    suspend fun getTrackById(id: String):TrackId
+    suspend fun getChart():MusicChart
 }

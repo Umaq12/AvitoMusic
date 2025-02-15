@@ -1,9 +1,9 @@
 package com.example.covertervk.di
 
 import android.provider.SyncStateContract
-import com.example.covertervk.data.remote.ExchangeApi
-import com.example.covertervk.data.repository.ValueRepositoryImpl
-import com.example.covertervk.domain.repository.ValueRepository
+import com.example.covertervk.data.remote.Api
+import com.example.covertervk.data.repository.RepositoryImpl
+import com.example.covertervk.domain.repository.Repository
 import com.example.covertervk.domain.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -19,17 +19,17 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideExchangeApi(): ExchangeApi {
+    fun provideExchangeApi(): Api {
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(ExchangeApi::class.java)
+            .create(Api::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideValueRepository(api: ExchangeApi): ValueRepository {
-        return ValueRepositoryImpl(api)
+    fun provideValueRepository(api: Api): Repository {
+        return RepositoryImpl(api)
     }
 }

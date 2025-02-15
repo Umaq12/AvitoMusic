@@ -2,7 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.ksp)
-    id ("dagger.hilt.android.plugin")
+    id("dagger.hilt.android.plugin")
+    kotlin("plugin.serialization") version "1.9.10"
 }
 
 android {
@@ -69,14 +70,18 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     //Hilt
-    implementation (libs.hilt.android)
-    ksp (libs.hilt.compiler)
-    ksp (libs.androidx.hilt.compiler)
-    implementation (libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    ksp(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
     // Retrofit
-    implementation ("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
-    implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
-    implementation( "androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+
+    implementation("io.coil-kt:coil-compose:2.3.0")
 }
