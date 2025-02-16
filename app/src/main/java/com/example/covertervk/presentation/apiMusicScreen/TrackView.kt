@@ -29,15 +29,20 @@ import com.example.covertervk.R
 import com.example.covertervk.domain.model.TrackDomain
 
 @Composable
-fun TrackItem(track: TrackDomain, isPlaying: Boolean, onPlayClick: () -> Unit) {
+fun TrackItem(
+    track: TrackDomain,
+    isPlaying: Boolean,
+    onPlayClick:  () -> Unit,
+    onItemClick: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+            .clickable { onItemClick() }
+            .padding(8.dp)
     ) {
         AsyncImage(
-            model = track.album?.coverUrl
+            model = track.album.coverUrl
                 ?: "https://cdn-images.dzcdn.net/images/artist/bb76c2ee3b068726ab4c37b0aabdb57a/1000x1000-000000-80-0-0.jpg",
             contentDescription = null,
             modifier = Modifier.size(64.dp)
@@ -45,19 +50,9 @@ fun TrackItem(track: TrackDomain, isPlaying: Boolean, onPlayClick: () -> Unit) {
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        Column(
-            modifier = Modifier.weight(1f),
-            horizontalAlignment = Alignment.Start
-        ) {
-            Text(
-                text = track.title,
-                fontWeight = FontWeight.Bold,
-                color = Color.Red,
-            )
-            Text(
-                text = track.artist?.name ?: "Unknown Artist",
-                color = Color.Gray
-            )
+        Column(modifier = Modifier.weight(1f)) {
+            Text(text = track.title, fontWeight = FontWeight.Bold, color = Color.Red)
+            track.artist.name?.let { Text(text = it, color = Color.Gray) }
         }
 
         IconButton(

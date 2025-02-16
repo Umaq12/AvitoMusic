@@ -39,11 +39,12 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.ui.text.font.FontWeight
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.covertervk.presentation.apiMusicScreen.ApiScreenMusicViewModel
 
 
 @Composable
-fun ExchangeScreen(viewModel: ApiScreenMusicViewModel) {
+fun ExchangeScreen(viewModel: ApiScreenMusicViewModel = hiltViewModel()) {
     val state = viewModel.state.value
 
     var fromValue by remember { mutableStateOf("") }

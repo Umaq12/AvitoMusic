@@ -12,7 +12,7 @@ import javax.inject.Inject
 class getTrackByIdUseCase @Inject constructor(
     private val repository: Repository
 ){
-    operator fun invoke(id: String): kotlinx.coroutines.flow.Flow<Resource<TrackDomain>> = flow {
+    operator fun invoke(id: Long): kotlinx.coroutines.flow.Flow<Resource<TrackDomain>> = flow {
         try {
             emit(Resource.Loading<TrackDomain>())
             val value = repository.getTrackById(id).toDomain()
