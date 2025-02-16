@@ -10,7 +10,7 @@ class RepositoryImpl @Inject constructor(
     private val api:Api
 ): Repository {
 
-    override suspend fun getTrackById(id: String): TrackId {
+    override suspend fun getTrackById(id: Long): TrackId {
         return api.getTrackById(id)
     }
 

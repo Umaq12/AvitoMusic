@@ -1,4 +1,4 @@
-package com.example.covertervk.presentation
+package com.example.covertervk
 
 import android.content.ComponentName
 import android.content.Context
@@ -13,6 +13,9 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,57 +24,21 @@ import androidx.navigation.navArgument
 import com.example.covertervk.foregroundService.MusicService
 import com.example.covertervk.navigation.BottomNavigationBar
 import com.example.covertervk.navigation.Screen
+import com.example.covertervk.presentation.ExchangeScreen
 import com.example.covertervk.presentation.apiMusicScreen.ApiMusicScreen
 import com.example.covertervk.presentation.apiMusicScreen.ApiScreenMusicViewModel
 
 import com.example.covertervk.presentation.theme.ui.CoverterVkTheme
 import com.example.covertervk.presentation.trackScreen.TrackScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     private val viewModel: ApiScreenMusicViewModel by viewModels()
-    private var musicService: MusicService? = null
-    private var isBound = false
-    private val serviceConnection = object : ServiceConnection {
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            val binder = service as MusicService.MusicBinder
-            musicService = binder.getService()
-            isBound = true
-        }
-
-        override fun onServiceDisconnected(name: ComponentName?) {
-            isBound = false
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Intent(this, MusicService::class.java).also { intent ->
-            bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (isBound) {
-            unbindService(serviceConnection)
-            isBound = false
-        }
-    }
-
-    private fun playMusic(trackUrl: String) {
-        if (isBound) {
-            musicService?.playTrack(trackUrl)
-        }
-    }
-
-    private fun pauseMusic() {
-        if (isBound) {
-            musicService?.pauseTrack()
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,19 +57,20 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(Screen.ExchangeScreen.route) {
-                            ExchangeScreen(viewModel)
+                            ExchangeScreen()
                         }
                         composable(Screen.ApiMusicScreen.route) {
-                            ApiMusicScreen(viewModel, navController)
+                            ApiMusicScreen(
+                                navController = navController,
+                                viewModel = viewModel
+                            )
                         }
                         composable(
                             route = Screen.TrackScreen.route,
-                            arguments = listOf(navArgument("trackId") { type = NavType.StringType })
+                            arguments = listOf(navArgument("trackId") { type = NavType.LongType })
                         ) { backStackEntry ->
-                            val trackId = backStackEntry.arguments?.getString("trackId")
-                            trackId?.let {
-                                TrackScreen(viewModel, trackId, navController)
-                            }
+                            val trackId = backStackEntry.arguments?.getLong("trackId") ?: 0L
+                            TrackScreen(trackId = trackId, navController = navController)
                         }
                     }
                 }

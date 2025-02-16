@@ -9,13 +9,13 @@ import retrofit2.http.Path
 interface Api {
     
 
-    @GET("/track/{id}")
+    @GET("track/{id}")
 
     suspend fun getTrackById(
-        @Path("id") id: String
+        @Path("id") id: Long
     ): TrackId
 
-    @GET("/chart/0")
+    @GET("chart")
 
     suspend fun getCharts(): MusicChart
 }

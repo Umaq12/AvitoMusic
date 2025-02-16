@@ -1,5 +1,7 @@
 package com.example.covertervk.presentation.apiMusicScreen
 
+import android.content.Intent
+import android.os.Build
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,18 +30,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.covertervk.foregroundService.MusicService
 import com.example.covertervk.navigation.Screen
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ApiMusicScreen(viewModel: ApiScreenMusicViewModel, navController: NavController) {
+fun ApiMusicScreen(
+    viewModel: ApiScreenMusicViewModel = hiltViewModel(),
+    navController: NavController
+) {
     val state = viewModel.state.value
     var searchQuery by remember { mutableStateOf("") }
     var debounceSearchQuery by remember { mutableStateOf("") }
     var playingTrackId by remember { mutableStateOf<String?>(null) }
+    val context = LocalContext.current // Получаем context внутри @Composable функции
 
     LaunchedEffect(searchQuery) {
         delay(300)
@@ -62,6 +71,7 @@ fun ApiMusicScreen(viewModel: ApiScreenMusicViewModel, navController: NavControl
             }
             state.chart != null -> {
                 val tracks = state.chart.tracks
+                //Log.d("11", tracks.toString())
                 val filteredTracks = tracks.filter {
                     it.title.contains(debounceSearchQuery, ignoreCase = true) ||
                             it.artist.name?.contains(debounceSearchQuery, ignoreCase = true) == true
@@ -90,13 +100,25 @@ fun ApiMusicScreen(viewModel: ApiScreenMusicViewModel, navController: NavControl
                     )
 
                     LazyColumn(modifier = Modifier.fillMaxWidth()) {
+
                         items(filteredTracks) { track ->
+                            //Log.d("11", track.toString())
                             TrackItem(
                                 track = track,
                                 isPlaying = track.id.toString() == playingTrackId,
                                 onPlayClick = {
                                     playingTrackId = track.id.toString()
-                                    navController.navigate(Screen.TrackScreen.createRoute(track.id.toString()))
+                                    val playIntent = Intent(context, MusicService::class.java).apply {
+                                        action = MusicService.ACTION_PLAY
+                                        putExtra("TRACK_URL", track.previewUrl)
+                                        putExtra("TRACK_TITLE", track.title)
+                                        putExtra("ARTIST_NAME", track.artist.name)
+                                    }
+                                    context.startForegroundService(playIntent)
+                                },
+                                onItemClick = {
+                                    Log.d("12", track.id.toString())
+                                    navController.navigate(Screen.TrackScreen.createRoute(track.id))
                                 }
                             )
                         }

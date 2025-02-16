@@ -18,31 +18,37 @@ data class MusicChart(
     val podcasts: Podcasts,
     val tracks: Tracks
 )
+
 @Serializable
 data class Albums(
     val data: List<Data>,
     val total: Int
 )
+
 @Serializable
 data class Artists(
     val data: List<DataX>,
     val total: Int
 )
+
 @Serializable
 data class Playlists(
     val data: List<DataXX>,
     val total: Int
 )
+
 @Serializable
 data class Podcasts(
     val data: List<DataXXX>,
     val total: Int
 )
+
 @Serializable
 data class Tracks(
     val data: List<DataXXXX>,
     val total: Int
 )
+
 @Serializable
 data class Data(
     val artist: Artist,
@@ -61,6 +67,7 @@ data class Data(
     val tracklist: String,
     val type: String
 )
+
 @Serializable
 data class Artist(
     val id: Long? = null,
@@ -75,6 +82,7 @@ data class Artist(
     val tracklist: String? = null,
     val type: String? = null
 )
+
 @Serializable
 data class DataX(
     val id: Long,
@@ -90,6 +98,7 @@ data class DataX(
     val tracklist: String,
     val type: String
 )
+
 @Serializable
 data class DataXX(
     val checksum: String,
@@ -110,6 +119,7 @@ data class DataXX(
     val type: String,
     val user: User
 )
+
 @Serializable
 data class User(
     val id: Long,
@@ -117,6 +127,7 @@ data class User(
     val tracklist: String,
     val type: String
 )
+
 @Serializable
 data class DataXXX(
     val available: Boolean,
@@ -133,6 +144,7 @@ data class DataXXX(
     val title: String,
     val type: String
 )
+
 @Serializable
 data class DataXXXX(
     val album: Album,
@@ -152,6 +164,7 @@ data class DataXXXX(
     val title_version: String,
     val type: String
 )
+
 @Serializable
 data class Album(
     val cover: String,
@@ -166,78 +179,6 @@ data class Album(
     val type: String
 )
 
-fun MusicChart.toDomain(): MusicChartDomain {
-    return MusicChartDomain(
-        albums = albums.data.map { it.toDomain() },
-        artists = artists.data.map { it.toDomain() },
-        playlists = playlists.data.map { it.toDomain() },
-        podcasts = podcasts.data.map { it.toDomain() },
-        tracks = tracks.data.map { it.toDomain() }
-    )
-}
-
-
-fun Data.toDomain(): AlbumDomain {
-    return AlbumDomain(
-        id = id,
-        title = title,
-        coverUrl = cover_xl,
-        artist = artist.toDomain()
-    )
-}
-
-fun Artist.toDomain(): ArtistDomain {
-    return ArtistDomain(
-        id = id,
-        name = name,
-        pictureUrl = picture_xl
-    )
-}
-fun DataX.toDomain(): ArtistDomain {
-    return ArtistDomain(
-        id = id,
-        name = name,
-        pictureUrl = picture_xl
-    )
-}
-
-fun DataXX.toDomain(): PlaylistDomain {
-    return PlaylistDomain(
-        id = id,
-        title = title,
-        trackCount = nb_tracks,
-        coverUrl = picture_xl
-    )
-}
-
-fun DataXXX.toDomain(): PodcastDomain {
-    return PodcastDomain(
-        id = id,
-        title = title,
-        description = description,
-        coverUrl = picture_xl
-    )
-}
-
-fun DataXXXX.toDomain(): TrackDomain {
-    return TrackDomain(
-        id = id,
-        title = title,
-        duration = duration,
-        rank = rank,
-        previewUrl = preview,
-        artist = artist.toDomain(),
-        album = album.toDomain()
-    )
-}
-fun Album.toDomain(): AlbumDomain {
-    return AlbumDomain(
-        id = id,
-        title = title,
-        coverUrl = cover_xl,
-        artist = ArtistDomain(id = 0, name = "Unknown", pictureUrl = "")
-    )
-}
 
 @Serializable
 data class TrackId(
@@ -268,6 +209,7 @@ data class TrackId(
     val track_token: String,
     val type: String
 )
+
 @Serializable
 data class Contributor(
     val id: Long,
@@ -284,22 +226,4 @@ data class Contributor(
     val tracklist: String,
     val type: String
 )
-fun TrackId.toDomain(): TrackDomain {
-    return TrackDomain(
-        id = id,
-        title = title,
-        duration = duration,
-        rank = rank,
-        previewUrl = preview,
-        artist = artist.toDomain(),
-        album = album.toDomain()
-    )
-}
-fun Contributor.toDomain(): ContributorDomain {
-    return ContributorDomain(
-        id = id,
-        name = name,
-        pictureUrl = picture_xl,
-        role = role
-    )
-}
+

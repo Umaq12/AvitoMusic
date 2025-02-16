@@ -16,7 +16,7 @@
         android:theme="@style/Theme.CoverterVk"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.CoverterVk">
             <intent-filter>
@@ -27,9 +27,9 @@
         </activity>
         <service
             android:name=".foregroundService.MusicService"
-            android:exported="false" />
-
-        <receiver android:name=".foregroundService.MusicService" />
+            android:foregroundServiceType="mediaPlayback"
+            android:exported="false">
+        </service>
 
     </application>
 
