@@ -124,7 +124,9 @@ fun TrackScreen(
 
                 // Кнопки управления воспроизведением
                 Row {
-                    IconButton(onClick = { viewModel.previousTrack(navController) }) {
+                    IconButton(onClick = {
+                        //viewModel.previousTrack(navController)
+                    }) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Previous")
                     }
 
@@ -146,7 +148,12 @@ fun TrackScreen(
                         )
                     }
 
-                    IconButton(onClick = { viewModel.nextTrack() }) {
+                    IconButton(
+
+                        onClick = {
+                            //viewModel.nextTrack()
+
+                        }) {
                         Icon(imageVector = Icons.Default.ArrowForward, contentDescription = "Next")
                     }
                 }
