@@ -38,7 +38,6 @@ fun TrackItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onItemClick() }
             .padding(8.dp)
     ) {
         AsyncImage(
@@ -56,7 +55,7 @@ fun TrackItem(
         }
 
         IconButton(
-            onClick = onPlayClick
+            onClick = onItemClick
         ) {
             val iconResId = if (isPlaying) {
                 R.drawable.baseline_pause_24

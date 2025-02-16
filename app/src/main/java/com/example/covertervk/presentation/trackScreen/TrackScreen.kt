@@ -89,7 +89,7 @@ fun TrackScreen(
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Отображение обложки альбома
+
                 AsyncImage(
                     model = track.album.coverUrl,
                     contentDescription = null,
@@ -98,14 +98,13 @@ fun TrackScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Название трека и исполнителя
+
                 Text(text = track.title)
                 Spacer(modifier = Modifier.height(8.dp))
                 track.artist.name?.let { Text(text = it) }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Прогресс воспроизведения
                 Slider(
                     value = currentPosition,
                     onValueChange = { viewModel.seekTo(it.toInt()) },
@@ -136,8 +135,13 @@ fun TrackScreen(
                             track.previewUrl?.let { viewModel.play(it) }
                         }
                     }) {
+                        val iconResId = if (isPlaying) {
+                            R.drawable.baseline_pause_24
+                        } else {
+                            R.drawable.baseline_play_arrow_24
+                        }
                         Icon(
-                            imageVector = if (isPlaying) Icons.Default.Info else Icons.Default.PlayArrow,
+                            painter = painterResource(id = iconResId),
                             contentDescription = if (isPlaying) "Pause" else "Play"
                         )
                     }

@@ -1,50 +1,48 @@
 package com.example.covertervk
 
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
+import android.Manifest
+import android.app.AlertDialog
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.IBinder
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import androidx.media3.common.MediaItem
-import androidx.media3.common.Player
-import androidx.media3.exoplayer.ExoPlayer
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.covertervk.foregroundService.MusicService
 import com.example.covertervk.navigation.BottomNavigationBar
 import com.example.covertervk.navigation.Screen
-import com.example.covertervk.presentation.ExchangeScreen
 import com.example.covertervk.presentation.apiMusicScreen.ApiMusicScreen
 import com.example.covertervk.presentation.apiMusicScreen.ApiScreenMusicViewModel
-
-import com.example.covertervk.presentation.theme.ui.CoverterVkTheme
+import com.example.covertervk.presentation.localMusicScreen.AudioViewModel
+import com.example.covertervk.presentation.localMusicScreen.LocalMusicScreen
+import com.example.covertervk.presentation.theme.ui.Avito
 import com.example.covertervk.presentation.trackScreen.TrackScreen
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val viewModel: ApiScreenMusicViewModel by viewModels()
+    private val audioViewModel: AudioViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        requestStoragePermission()
+
         setContent {
-            CoverterVkTheme {
+            Avito {
                 val navController = rememberNavController()
                 Scaffold(
                     bottomBar = {
@@ -57,7 +55,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(Screen.ExchangeScreen.route) {
-                            ExchangeScreen()
+                            LocalMusicScreen()
                         }
                         composable(Screen.ApiMusicScreen.route) {
                             ApiMusicScreen(
@@ -77,6 +75,54 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    // В вашем Activity или Fragment
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // Разрешение предоставлено, загружаем аудиофайлы
+            audioViewModel.loadAudioFiles()
+        } else {
+            // Разрешение отклонено, отображаем сообщение пользователю
+            Toast.makeText(this, "Разрешение на чтение хранилища отклонено", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun requestStoragePermission() {
+        when {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                // Разрешение уже предоставлено
+                audioViewModel.loadAudioFiles()
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+                // Показать объяснение необходимости разрешения
+                showPermissionRationale()
+            }
+            else -> {
+                // Запросить разрешение
+                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+        }
+    }
+
+    private fun showPermissionRationale() {
+        AlertDialog.Builder(this)
+            .setTitle("Требуется разрешение")
+            .setMessage("Для отображения аудиофайлов необходимо предоставить доступ к хранилищу.")
+            .setPositiveButton("Предоставить") { _, _ ->
+                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+            .setNegativeButton("Отмена", null)
+            .create()
+            .show()
+    }
+
+
 }
+
 
 

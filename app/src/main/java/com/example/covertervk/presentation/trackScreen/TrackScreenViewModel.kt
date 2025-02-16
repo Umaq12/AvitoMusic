@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.covertervk.data.remote.Api
 import com.example.covertervk.data.remote.dto.toDomain
 import com.example.covertervk.domain.util.Constants
-import com.example.covertervk.presentation.ValueState
+import com.example.covertervk.presentation.util.ValueState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

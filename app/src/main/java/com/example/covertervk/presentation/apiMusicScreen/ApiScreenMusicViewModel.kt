@@ -1,14 +1,11 @@
 package com.example.covertervk.presentation.apiMusicScreen
 
 import android.app.Application
-import android.content.Context
-import android.media.browse.MediaBrowser
 import androidx.annotation.OptIn
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
@@ -17,10 +14,9 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.NavController
 import com.example.covertervk.data.remote.Api
 import com.example.covertervk.data.remote.dto.toDomain
-import com.example.covertervk.domain.model.TrackDomain
 import com.example.covertervk.domain.util.Constants
 import com.example.covertervk.navigation.Screen
-import com.example.covertervk.presentation.ValueState
+import com.example.covertervk.presentation.util.ValueState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -1,4 +1,4 @@
-package com.example.covertervk.presentation
+package com.example.covertervk.presentation.util
 
 import com.example.covertervk.domain.model.MusicChartDomain
 import com.example.covertervk.domain.model.TrackDomain
